@@ -1646,7 +1646,7 @@ connectiondb.query("update ist_comments set comment = '" + dataset.sec14row1col1
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'Ainvoicerevision@gmail.com',
+        user: '@gmail.com',
         pass: ''
             }
     });
@@ -1654,7 +1654,7 @@ var transporter = nodemailer.createTransport({
 
 // ----------------------------------------------
 var mailOptions = {
-        from: 'Ainvoicerevision@gmail.com', // sender address
+        from: '@gmail.com', // sender address
         to: dataset.email, // list of receivers
         bcc: 'jason.zeng@A.com', // list of receivers
         subject: 'A Budget Submission: ' + dataset.servername+ ' | '+dataset.client , // Subject line
