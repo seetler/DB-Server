@@ -1,0 +1,2991 @@
+<!DOCTYPE html>
+<html >
+  <head>
+
+    <title >Cadreon Budget Submission</title>
+    
+    
+    
+    
+        <link rel="stylesheet" href="css/stylealpha.css">
+  </head>
+
+<script src='js/jquery.min.js'></script>
+<script src="js/numeral.min.js"></script>
+<script src="js/autoNumeric.js"></script>
+
+<script>
+
+jQuery(function($) {
+    $('.auto').autoNumeric('init');
+});
+
+
+
+function unnan(a) {
+    var newstring = a.replace(/,/g, '')
+    var newstring1 = newstring.replace('$','')
+    var newstring2 = newstring1.replace(' ','')
+    var newstring3 = newstring2.replace('%','')
+    var newstring4 = Number(newstring3)
+
+    return newstring4
+};
+
+
+
+
+$(document).ready(function() {
+    $("input:text").focus(function() { $(this).select(); } );
+});
+
+
+
+$(document).ready(function() {
+    $("input:text").mouseup(function(e){
+        e.preventDefault(); });
+});
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------
+$(document).on('keydown', 'input', function(e) {
+
+    var value = this.name;
+    var rowvalue = value.substring(value.indexOf('row')+3,value.indexOf('col'));
+    var secvalue = value.substring(value.indexOf('sec')+3,value.indexOf('row'));
+    var firstpart = value.substring(0,value.indexOf('row')+3);
+    var secondpart = value.substring(value.indexOf('col'));
+    var rowvaluedown = Number(rowvalue)+1;
+    var rowvalueup = Number(rowvalue)-1;
+    var colvalue = value.substring(value.indexOf('col')+3);
+    var colvalueup = Number(colvalue)+1
+    var colvaluedown = Number(colvalue)-1
+
+
+    if(e.keyCode == 40) {
+
+        if (rowvaluedown == 3) {
+          rowvaluedown = 1;
+          secvalue = Number(secvalue)+1
+        }
+
+        var finalvalue = '#sec'+secvalue+'row'+rowvaluedown+secondpart
+          $(finalvalue).focus();
+          e.preventDefault();
+
+    };
+
+
+
+    if(e.keyCode == 39) {
+
+        if (colvalueup == 13 || colvalueup == 14) {
+          colvalueup = 1;
+          rowvalue = Number(rowvalue)+1
+
+          if (rowvalue == 3) {
+            rowvalue = 1;
+            secvalue = Number(secvalue)+1
+          }
+        }
+
+        var finalvalue = '#sec'+secvalue+'row'+rowvalue+'col' + colvalueup
+          $(finalvalue).focus();
+          e.preventDefault();
+
+    };
+
+
+
+
+    if(e.keyCode == 37) {
+
+        if (colvaluedown == 0) {
+          colvaluedown = 12;
+          rowvalue = Number(rowvalue)-1
+
+          if (rowvalue == 0) {
+            rowvalue = 2;
+            secvalue = Number(secvalue)-1
+          }
+        }
+
+        var finalvalue = '#sec'+secvalue+'row'+rowvalue+'col' + colvaluedown
+          $(finalvalue).focus();
+          e.preventDefault();
+    };
+
+
+    if(e.keyCode == 38) { 
+
+        if (rowvalueup == 0) {
+          rowvalueup = 2;
+          secvalue = Number(secvalue)-1
+        }
+
+        var finalvalue = '#sec'+secvalue+'row'+rowvalueup+secondpart
+          $(finalvalue).focus()
+          e.preventDefault();
+        };
+
+
+});
+//----------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------
+function totalastar(a,b) {
+  
+  annualBill(a,b);
+  annualHoldout(a,b);
+  calcTotBill(a,b);
+
+}
+//----------------------------------------------------------------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------------------------------------------------------------
+
+function onloadall() {
+  
+  annualBill(1,15);
+  annualHoldout(1,15);
+  calcTotBill(1,14);
+
+}
+//----------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------
+function annualBill(init, end) {
+
+      var init;
+      var end;
+      //
+    for (i=init; i<end; i++) {
+
+    document.getElementById('sec' + i + 'row1col13').value = 
+    (unnan(document.getElementById('sec' + i + 'row1col1').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col2').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col3').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col4').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col5').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col6').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col7').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col8').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col9').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col10').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col11').value)) +
+    (unnan(document.getElementById('sec' + i + 'row1col12').value)) ;
+    $('#sec' + i + 'row1col13').autoNumeric('update', {aSign: '$ '});
+
+    }
+      //
+}
+
+function annualHoldout(init, end) {
+      //
+      var init;
+      var end;
+      //
+    for (i=init; i<end; i++) {
+
+    var y= 
+    (unnan(document.getElementById('sec' + i + 'row2col1').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col1').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col2').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col2').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col3').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col3').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col4').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col4').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col5').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col5').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col6').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col6').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col7').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col7').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col8').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col8').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col9').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col9').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col10').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col10').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col11').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col11').value)) +
+    (unnan(document.getElementById('sec' + i + 'row2col12').value)/100)* (unnan(document.getElementById('sec' + i + 'row1col12').value)) ;
+
+    var x=y/(unnan(document.getElementById('sec' + i + 'row1col13').value))*100
+
+    document.getElementById('sec' + i + 'row2col13').value=x;
+
+    $('#sec' + i + 'row2col13').autoNumeric('update', {aSign: ' %', pSign:'S'});
+    }
+      //
+}
+
+
+
+
+
+ //
+
+function calcTotBill() {
+
+      //
+    for (i=1; i<14; i++) {
+    document.getElementById('sectotrow9col'+i).value = 
+
+    unnan(document.getElementById('sec1row1col'+i).value) + 
+    unnan(document.getElementById('sec2row1col'+i).value) +
+    unnan(document.getElementById('sec3row1col'+i).value) + 
+    unnan(document.getElementById('sec4row1col'+i).value) + 
+    unnan(document.getElementById('sec5row1col'+i).value) + 
+    unnan(document.getElementById('sec6row1col'+i).value) + 
+    unnan(document.getElementById('sec7row1col'+i).value) + 
+    unnan(document.getElementById('sec8row1col'+i).value) + 
+    unnan(document.getElementById('sec9row1col'+i).value) + 
+    unnan(document.getElementById('sec10row1col'+i).value) + 
+    unnan(document.getElementById('sec11row1col'+i).value) + 
+    unnan(document.getElementById('sec12row1col'+i).value) + 
+    unnan(document.getElementById('sec13row1col'+i).value) + 
+    unnan(document.getElementById('sec14row1col'+i).value)
+
+
+
+     $('#sectotrow9col'+i).autoNumeric('update', {aSign: '$ '});
+    }
+
+
+      //---
+}
+
+
+
+$(window).scroll(function(){
+    $('.wrappersmall').css({
+        'left': $(this).scrollLeft()*-1 
+
+            });
+});
+
+$(window).scroll(function(){
+    $('.wrappersmall12').css({
+        'top': $(this).scrollTop()*-1 +55
+
+            });
+});
+
+
+</script>
+    
+<body onload='onloadall()'>
+
+<div class="wrapper" >
+
+<div width='1900px'>
+    <form class="form" method='post' onsubmit="return checkCheckBoxes(this);" >
+
+
+
+
+
+
+
+<!-- This isthe title bar -->
+<div class='topbar'style='z-index:11;position:fixed;'>
+
+<p style='font-size:20px; float:left; color:whitesmoke; font-weight: 900;'>  &nbsp &nbsp &nbsp Client:  &nbsp </p>
+
+
+
+<select style='float:left;text-align:left;padding:5px;'  name='client' id='client' onchange="this.form.submit()" >
+
+<option value='<%=clientkey%>'><%=clientkey%></option>
+<option value=' '>--------</option>
+
+
+<% for(i=0;i<serverInfo.client.length;i++) { %>
+
+<option value='<%=serverInfo.client[i]%>'><%=serverInfo.client[i]%></option>
+
+<% }%>
+
+
+
+</select>
+
+
+
+<p style='font-size:20px; float:left; color:whitesmoke; font-weight: 900;'>   &nbsp &nbsp  &nbsp Year:  &nbsp  </p>
+
+<select style='float:left; padding:5px;' value='2016' name='year' id='year'  >
+<option value='2016'>2016</option>
+</select>
+
+<p style='font-size:20px; float:left; color:whitesmoke; font-weight: 900;'>  &nbsp &nbsp &nbsp Scenario:   &nbsp  </p>
+
+<select style='float:left; padding:5px;' value='Forward Plan' name='scenario' id='scenario'  >
+<option>Budget</option>
+</select>
+
+<p style='font-size:20px; float:left; color:whitesmoke; font-weight: 900;'> &nbsp  &nbsp &nbsp Region:   &nbsp  </p>
+
+<select style='float:left; padding:5px;' name='region' id='region'  >
+<option  value='<%=serverInfo.region%>'> <%=serverInfo.region%> </option>
+</select>
+
+<p style='font-size:20px; float:left; font-weight: 900;'> &nbsp  &nbsp &nbsp    &nbsp  &nbsp  &nbsp   &nbsp    &nbsp &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp  &nbsp &nbsp  &nbsp   </p>
+
+
+<a href="/logout">
+<button type='button' style='float:right;padding:5px'> Logout</button>
+</a>
+</div>
+<!-- This isthe title bar -->
+
+
+<div class='wrappersmall' style='position:fixed;'>
+<div class='container'>
+<br>
+<br>
+    <p style='font-size:40px;font-weight:500'>Budget Submission</p>
+<br>
+
+
+
+
+  <!-- Table -->
+<TABLE BORDER="0">
+
+  <TR>
+
+    <TD style="width:163px">
+
+    </TD>
+    <td style='width:30px'></td>
+    <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+
+
+     
+      January
+    
+    </TD>
+      <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      Feburary
+      
+    </TD>
+       <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      March
+      
+    </TD>
+           <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      April
+      
+    </TD>
+           <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      May
+      
+    </TD>
+           <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      June
+      
+    </TD>
+           <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      July
+      
+    </TD>
+           <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      August
+      
+    </TD>
+           <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      September
+      
+    </TD>
+           <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      October
+      
+    </TD>
+           <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+     November
+      
+    </TD>    
+      <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      December
+      
+    </TD>
+        </TD>    
+      <TD style='font-weight:900;text-align:center;width:100px;font-size:18px'>
+        
+      Total
+    </TD>
+    <td width='40px'>
+
+    </td>
+      <TD  style='font-weight:900;text-align:center;width:250px;font-size:18px' >
+Comments
+      </td>
+  </TR>
+
+</table>
+  <!-- Table -->
+</div>
+</div>
+
+
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+
+
+<div class='wrappersmall12' name='sidebar' style='position:fixed;float:left;width:185px;height:1745px;top:55px;z-index:6'>
+  <br>
+<div style='height:1300px;width:15px;float:left'>
+</div>
+
+
+<table border='0' margin='1px'>
+<tr>
+
+  <td style="font-weight:900;text-align:left;width:140px;height:20px" >
+Display RTB
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec1' id='sec1' ></td>
+</tr>
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left;font-size:14px' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+  <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Video - Magna Select
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec2' id='sec2' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+  <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Video - Magna Prime
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec3' id='sec3' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+  <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Mobile RTB
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec4' id='sec4' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Social RTB
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec5' id='sec5' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+TV
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec6' id='sec6' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Display - DB Cadreon
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec7' id='sec7' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Video - DB Cadreon
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec8' id='sec8' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Mobile - DB Cadreon
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec9' id='sec9' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Social - DB Cadreon
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec10' id='sec10' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Display - DB Orion
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec11' id='sec11' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Video - DB Orion
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec12' id='sec12' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Mobile - DB Orion
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec13' id='sec13' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+    <tr>
+
+
+  <td style="font-weight:900;text-align:left;height:20px" >
+Social - DB Orion
+  </td>
+<td width='25px'><input style="float:left;" type='checkbox' name='sec14' id='sec14' ></td>
+</tr> 
+<TR>
+
+    <TD style='text-align:left' height='20px'  style='text-align:left' >
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gross Billings
+    </TD>
+  </tr>
+  <TR>
+
+    <TD style='text-align:left' height='20px'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold Out %
+    </TD>
+  </tr>
+
+
+</table>
+
+<div style='height:88px'> </div>
+  <p style='font-weight:900;font-size:18px;flota:left'>
+Total Billings
+</p>
+
+
+
+
+
+
+</div>
+
+
+
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+</center>
+
+
+
+
+<div class="container" id='biggerone' style='float:left'>
+
+<div style='height:180px'>
+
+
+</div>
+<TABLE BORDER="0">
+
+<tr>
+
+  <td width='163px' >
+
+  </td>
+<td width='30px' height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td width='40px'>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[0].amount%>" name="sec1row1col1"  id="sec1row1col1" onchange='totalastar(1,2);' onfocus="this.select();" >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[1].amount%>" name="sec1row1col2"  id="sec1row1col2" onchange='totalastar(1,2);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[2].amount%>" name="sec1row1col3"  id="sec1row1col3" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[3].amount%>" name="sec1row1col4"  id="sec1row1col4" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[4].amount%>" name="sec1row1col5"  id="sec1row1col5" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[5].amount%>" name="sec1row1col6"  id="sec1row1col6" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[6].amount%>" name="sec1row1col7" id="sec1row1col7" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[7].amount%>" name="sec1row1col8" id="sec1row1col8" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[8].amount%>" name="sec1row1col9" id="sec1row1col9" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[9].amount%>" name="sec1row1col10" id="sec1row1col10" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[10].amount%>" name="sec1row1col11" id="sec1row1col11" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[11].amount%>" name="sec1row1col12" id="sec1row1col12" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec1row1col13" readonly id="sec1row1col13"   >
+    </TD>
+        <TD>
+
+       </TD>
+ <TD rowspan='2' >     
+      <textarea  style='height:42px;width:250px;margin:0' value="<%=getComments1[0].comment%>" name="sec1row1col14"  id="sec1row1col14"><%=getComments1[0].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[0].amount%>" name="sec1row2col1"  id="sec1row2col1" onchange='totalastar(1,2);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[1].amount%>" name="sec1row2col2"  id="sec1row2col2" onchange='totalastar(1,2);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[2].amount%>" name="sec1row2col3"  id="sec1row2col3" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[3].amount%>" name="sec1row2col4"  id="sec1row2col4" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[4].amount%>" name="sec1row2col5"  id="sec1row2col5" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[5].amount%>" name="sec1row2col6"  id="sec1row2col6" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[6].amount%>" name="sec1row2col7" id="sec1row2col7" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[7].amount%>" name="sec1row2col8" id="sec1row2col8" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[8].amount%>" name="sec1row2col9" id="sec1row2col9" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[9].amount%>" name="sec1row2col10" id="sec1row2col10" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[10].amount%>" name="sec1row2col11" id="sec1row2col11" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[11].amount%>" name="sec1row2col12" id="sec1row2col12" onchange='totalastar(1,2);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec1row2col13" readonly id="sec1row2col13"   >
+    </TD>
+
+  </TR>
+
+
+
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[12].amount%>" name="sec2row1col1"  id="sec2row1col1" onchange='totalastar(2,3);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[13].amount%>" name="sec2row1col2"  id="sec2row1col2" onchange='totalastar(2,3);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[14].amount%>" name="sec2row1col3"  id="sec2row1col3" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[15].amount%>" name="sec2row1col4"  id="sec2row1col4" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[16].amount%>" name="sec2row1col5"  id="sec2row1col5" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[17].amount%>" name="sec2row1col6"  id="sec2row1col6" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[18].amount%>" name="sec2row1col7" id="sec2row1col7" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[19].amount%>" name="sec2row1col8" id="sec2row1col8" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[20].amount%>" name="sec2row1col9" id="sec2row1col9" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[21].amount%>" name="sec2row1col10" id="sec2row1col10" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[22].amount%>" name="sec2row1col11" id="sec2row1col11" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value= "<%=data1[23].amount%>" name="sec2row1col12" id="sec2row1col12" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec2row1col13" readonly id="sec2row1col13"   >
+    </TD>
+        <TD>
+
+       </TD>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[1].comment%>" name="sec2row1col14"  id="sec2row1col14"><%=getComments1[1].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[12].amount%>" name="sec2row2col1"  id="sec2row2col1" onchange='totalastar(2,3);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[13].amount%>" name="sec2row2col2"  id="sec2row2col2" onchange='totalastar(2,3);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[14].amount%>" name="sec2row2col3"  id="sec2row2col3" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[15].amount%>" name="sec2row2col4"  id="sec2row2col4" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[16].amount%>" name="sec2row2col5"  id="sec2row2col5" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[17].amount%>" name="sec2row2col6"  id="sec2row2col6" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[18].amount%>" name="sec2row2col7" id="sec2row2col7" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[19].amount%>" name="sec2row2col8" id="sec2row2col8" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[20].amount%>" name="sec2row2col9" id="sec2row2col9" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[21].amount%>" name="sec2row2col10" id="sec2row2col10" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[22].amount%>" name="sec2row2col11" id="sec2row2col11" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value= "<%=data2[23].amount%>" name="sec2row2col12" id="sec2row2col12" onchange='totalastar(2,3);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec2row2col13" readonly id="sec2row2col13"   >
+    </TD>
+
+  </TR>
+
+
+   
+
+  <!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+  <tr>
+    <td  >
+
+    </td>
+  <td height='20px'></td>
+  <td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+      
+  </tr>
+  <TR>
+
+      <TD style='text-align:left'   style='text-align:left' >
+  
+      </TD>
+   <td></td>
+      <TD >
+        <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[24].amount%>" name="sec3row1col1"  id="sec3row1col1" onchange='totalastar(3,4);'  >
+      </TD>
+        <TD>
+        <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[25].amount%>" name="sec3row1col2"  id="sec3row1col2" onchange='totalastar(3,4);' >
+      </TD>
+      <TD>
+        <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[26].amount%>" name="sec3row1col3"  id="sec3row1col3" onchange='totalastar(3,4);' >
+      </TD>
+          <TD>
+        <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[27].amount%>" name="sec3row1col4"  id="sec3row1col4" onchange='totalastar(3,4);' >
+      </TD>
+          <TD>
+        <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[28].amount%>" name="sec3row1col5"  id="sec3row1col5" onchange='totalastar(3,4);' >
+      </TD>
+          <TD>
+        <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[29].amount%>" name="sec3row1col6"  id="sec3row1col6" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[30].amount%>" name="sec3row1col7" id="sec3row1col7" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[31].amount%>" name="sec3row1col8" id="sec3row1col8" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[32].amount%>" name="sec3row1col9" id="sec3row1col9" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[33].amount%>" name="sec3row1col10" id="sec3row1col10" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[34].amount%>" name="sec3row1col11" id="sec3row1col11" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[35].amount%>" name="sec3row1col12" id="sec3row1col12" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec3row1col13" readonly id="sec3row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[2].comment%>" name="sec3row1col14"  id="sec3row1col14"><%=getComments1[2].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[24].amount%>" name="sec3row2col1"  id="sec3row2col1" onchange='totalastar(3,4);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[25].amount%>" name="sec3row2col2"  id="sec3row2col2" onchange='totalastar(3,4);' >
+    </TD> 
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[26].amount%>" name="sec3row2col3"  id="sec3row2col3" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[27].amount%>" name="sec3row2col4"  id="sec3row2col4" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[28].amount%>" name="sec3row2col5"  id="sec3row2col5" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[29].amount%>" name="sec3row2col6"  id="sec3row2col6" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[30].amount%>" name="sec3row2col7" id="sec3row2col7" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[31].amount%>" name="sec3row2col8" id="sec3row2col8" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[32].amount%>" name="sec3row2col9" id="sec3row2col9" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[33].amount%>" name="sec3row2col10" id="sec3row2col10" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[34].amount%>" name="sec3row2col11" id="sec3row2col11" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[35].amount%>" name="sec3row2col12" id="sec3row2col12" onchange='totalastar(3,4);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec3row2col13" readonly id="sec3row2col13"   >
+    </TD>
+
+  </TR>                 
+  
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[36].amount%>" name="sec4row1col1"  id="sec4row1col1" onchange='totalastar(4,5);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[37].amount%>" name="sec4row1col2"  id="sec4row1col2" onchange='totalastar(4,5);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[38].amount%>" name="sec4row1col3"  id="sec4row1col3" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[39].amount%>" name="sec4row1col4"  id="sec4row1col4" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[40].amount%>" name="sec4row1col5"  id="sec4row1col5" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[41].amount%>" name="sec4row1col6"  id="sec4row1col6" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[42].amount%>" name="sec4row1col7" id="sec4row1col7" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[43].amount%>" name="sec4row1col8" id="sec4row1col8" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[44].amount%>" name="sec4row1col9" id="sec4row1col9" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[45].amount%>" name="sec4row1col10" id="sec4row1col10" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[46].amount%>" name="sec4row1col11" id="sec4row1col11" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[47].amount%>" name="sec4row1col12" id="sec4row1col12" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec4row1col13" readonly id="sec4row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[3].comment%>" name="sec4row1col14"  id="sec4row1col14"><%=getComments1[3].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[36].amount%>" name="sec4row2col1"  id="sec4row2col1" onchange='totalastar(4,5);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[37].amount%>" name="sec4row2col2"  id="sec4row2col2" onchange='totalastar(4,5);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[38].amount%>" name="sec4row2col3"  id="sec4row2col3" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[39].amount%>" name="sec4row2col4"  id="sec4row2col4" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[40].amount%>" name="sec4row2col5"  id="sec4row2col5" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[41].amount%>" name="sec4row2col6"  id="sec4row2col6" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[42].amount%>" name="sec4row2col7" id="sec4row2col7" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[43].amount%>" name="sec4row2col8" id="sec4row2col8" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[44].amount%>" name="sec4row2col9" id="sec4row2col9" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[45].amount%>" name="sec4row2col10" id="sec4row2col10" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[46].amount%>" name="sec4row2col11" id="sec4row2col11" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[47].amount%>" name="sec4row2col12" id="sec4row2col12" onchange='totalastar(4,5);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec4row2col13" readonly id="sec4row2col13"   >
+    </TD>
+
+  </TR>
+
+
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[48].amount%>" name="sec5row1col1"  id="sec5row1col1" onchange='totalastar(5,6);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[49].amount%>" name="sec5row1col2"  id="sec5row1col2" onchange='totalastar(5,6);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[50].amount%>" name="sec5row1col3"  id="sec5row1col3" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[51].amount%>" name="sec5row1col4"  id="sec5row1col4" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[52].amount%>" name="sec5row1col5"  id="sec5row1col5" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[53].amount%>" name="sec5row1col6"  id="sec5row1col6" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[54].amount%>" name="sec5row1col7" id="sec5row1col7" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[55].amount%>" name="sec5row1col8" id="sec5row1col8" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[56].amount%>" name="sec5row1col9" id="sec5row1col9" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[57].amount%>" name="sec5row1col10" id="sec5row1col10" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[58].amount%>" name="sec5row1col11" id="sec5row1col11" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[59].amount%>" name="sec5row1col12" id="sec5row1col12" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec5row1col13" readonly id="sec5row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[4].comment%>" name="sec5row1col14"  id="sec5row1col14"><%=getComments1[4].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[48].amount%>" name="sec5row2col1"  id="sec5row2col1" onchange='totalastar(5,6);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[49].amount%>" name="sec5row2col2"  id="sec5row2col2" onchange='totalastar(5,6);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[50].amount%>" name="sec5row2col3"  id="sec5row2col3" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[51].amount%>" name="sec5row2col4"  id="sec5row2col4" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[52].amount%>" name="sec5row2col5"  id="sec5row2col5" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[53].amount%>" name="sec5row2col6"  id="sec5row2col6" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[54].amount%>" name="sec5row2col7" id="sec5row2col7" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[55].amount%>" name="sec5row2col8" id="sec5row2col8" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[56].amount%>" name="sec5row2col9" id="sec5row2col9" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[57].amount%>" name="sec5row2col10" id="sec5row2col10" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[58].amount%>" name="sec5row2col11" id="sec5row2col11" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[59].amount%>" name="sec5row2col12" id="sec5row2col12" onchange='totalastar(5,6);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec5row2col13" readonly id="sec5row2col13"   >
+    </TD>
+
+  </TR>
+  
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[60].amount%>" name="sec6row1col1"  id="sec6row1col1" onchange='totalastar(6,7);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[61].amount%>" name="sec6row1col2"  id="sec6row1col2" onchange='totalastar(6,7);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[62].amount%>" name="sec6row1col3"  id="sec6row1col3" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[63].amount%>" name="sec6row1col4"  id="sec6row1col4" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[64].amount%>" name="sec6row1col5"  id="sec6row1col5" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[65].amount%>" name="sec6row1col6"  id="sec6row1col6" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[66].amount%>" name="sec6row1col7" id="sec6row1col7" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[67].amount%>" name="sec6row1col8" id="sec6row1col8" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[68].amount%>" name="sec6row1col9" id="sec6row1col9" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[69].amount%>" name="sec6row1col10" id="sec6row1col10" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[70].amount%>" name="sec6row1col11" id="sec6row1col11" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[71].amount%>" name="sec6row1col12" id="sec6row1col12" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec6row1col13" readonly id="sec6row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[5].comment%>" name="sec6row1col14"  id="sec6row1col14"><%=getComments1[5].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[60].amount%>" name="sec6row2col1"  id="sec6row2col1" onchange='totalastar(6,7);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[61].amount%>" name="sec6row2col2"  id="sec6row2col2" onchange='totalastar(6,7);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[62].amount%>" name="sec6row2col3"  id="sec6row2col3" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[63].amount%>" name="sec6row2col4"  id="sec6row2col4" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[64].amount%>" name="sec6row2col5"  id="sec6row2col5" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[65].amount%>" name="sec6row2col6"  id="sec6row2col6" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[66].amount%>" name="sec6row2col7" id="sec6row2col7" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[67].amount%>" name="sec6row2col8" id="sec6row2col8" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[68].amount%>" name="sec6row2col9" id="sec6row2col9" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[69].amount%>" name="sec6row2col10" id="sec6row2col10" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[70].amount%>" name="sec6row2col11" id="sec6row2col11" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[71].amount%>" name="sec6row2col12" id="sec6row2col12" onchange='totalastar(6,7);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec6row2col13" readonly id="sec6row2col13"   >
+    </TD>
+
+  </TR>
+  
+
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+<tr>
+<td>
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[72].amount%>" name="sec7row1col1"  id="sec7row1col1" onchange='totalastar(7,8);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[73].amount%>" name="sec7row1col2"  id="sec7row1col2" onchange='totalastar(7,8);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[74].amount%>" name="sec7row1col3"  id="sec7row1col3" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[75].amount%>" name="sec7row1col4"  id="sec7row1col4" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[76].amount%>" name="sec7row1col5"  id="sec7row1col5" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[77].amount%>" name="sec7row1col6"  id="sec7row1col6" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[78].amount%>" name="sec7row1col7" id="sec7row1col7" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[79].amount%>" name="sec7row1col8" id="sec7row1col8" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[80].amount%>" name="sec7row1col9" id="sec7row1col9" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[81].amount%>" name="sec7row1col10" id="sec7row1col10" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[82].amount%>" name="sec7row1col11" id="sec7row1col11" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[83].amount%>" name="sec7row1col12" id="sec7row1col12" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec7row1col13" readonly id="sec7row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[6].comment%>" name="sec7row1col14"  id="sec7row1col14"><%=getComments1[6].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[72].amount%>" name="sec7row2col1"  id="sec7row2col1" onchange='totalastar(7,8);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[73].amount%>" name="sec7row2col2"  id="sec7row2col2" onchange='totalastar(7,8);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[74].amount%>" name="sec7row2col3"  id="sec7row2col3" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[75].amount%>" name="sec7row2col4"  id="sec7row2col4" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[76].amount%>" name="sec7row2col5"  id="sec7row2col5" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[77].amount%>" name="sec7row2col6"  id="sec7row2col6" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[78].amount%>" name="sec7row2col7" id="sec7row2col7" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[79].amount%>" name="sec7row2col8" id="sec7row2col8" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[80].amount%>" name="sec7row2col9" id="sec7row2col9" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[81].amount%>" name="sec7row2col10" id="sec7row2col10" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[82].amount%>" name="sec7row2col11" id="sec7row2col11" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[83].amount%>" name="sec7row2col12" id="sec7row2col12" onchange='totalastar(7,8);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec7row2col13" readonly id="sec7row2col13"   >
+    </TD>
+
+  </TR>
+
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[84].amount%>" name="sec8row1col1"  id="sec8row1col1" onchange='totalastar(8,9);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[85].amount%>" name="sec8row1col2"  id="sec8row1col2" onchange='totalastar(8,9);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[86].amount%>" name="sec8row1col3"  id="sec8row1col3" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[87].amount%>" name="sec8row1col4"  id="sec8row1col4" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[88].amount%>" name="sec8row1col5"  id="sec8row1col5" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[89].amount%>" name="sec8row1col6"  id="sec8row1col6" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[90].amount%>" name="sec8row1col7" id="sec8row1col7" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[91].amount%>" name="sec8row1col8" id="sec8row1col8" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[92].amount%>" name="sec8row1col9" id="sec8row1col9" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[93].amount%>" name="sec8row1col10" id="sec8row1col10" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[94].amount%>" name="sec8row1col11" id="sec8row1col11" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[95].amount%>" name="sec8row1col12" id="sec8row1col12" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec8row1col13" readonly id="sec8row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[7].comment%>" name="sec8row1col14"  id="sec8row1col14"><%=getComments1[7].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[84].amount%>" name="sec8row2col1"  id="sec8row2col1" onchange='totalastar(8,9);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[85].amount%>" name="sec8row2col2"  id="sec8row2col2" onchange='totalastar(8,9);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[86].amount%>" name="sec8row2col3"  id="sec8row2col3" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[87].amount%>" name="sec8row2col4"  id="sec8row2col4" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[88].amount%>" name="sec8row2col5"  id="sec8row2col5" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[89].amount%>" name="sec8row2col6"  id="sec8row2col6" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[90].amount%>" name="sec8row2col7" id="sec8row2col7" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[91].amount%>" name="sec8row2col8" id="sec8row2col8" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[92].amount%>" name="sec8row2col9" id="sec8row2col9" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[93].amount%>" name="sec8row2col10" id="sec8row2col10" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[94].amount%>" name="sec8row2col11" id="sec8row2col11" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[95].amount%>" name="sec8row2col12" id="sec8row2col12" onchange='totalastar(8,9);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec8row2col13" readonly id="sec8row2col13"   >
+    </TD>
+
+  </TR>
+ 
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[96].amount%>" name="sec9row1col1"  id="sec9row1col1" onchange='totalastar(9,10);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[97].amount%>" name="sec9row1col2"  id="sec9row1col2" onchange='totalastar(9,10);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[98].amount%>" name="sec9row1col3"  id="sec9row1col3" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[99].amount%>" name="sec9row1col4"  id="sec9row1col4" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[100].amount%>" name="sec9row1col5"  id="sec9row1col5" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[101].amount%>" name="sec9row1col6"  id="sec9row1col6" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[102].amount%>" name="sec9row1col7" id="sec9row1col7" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[103].amount%>" name="sec9row1col8" id="sec9row1col8" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[104].amount%>" name="sec9row1col9" id="sec9row1col9" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[105].amount%>" name="sec9row1col10" id="sec9row1col10" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[106].amount%>" name="sec9row1col11" id="sec9row1col11" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[107].amount%>" name="sec9row1col12" id="sec9row1col12" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec9row1col13" readonly id="sec9row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[8].comment%>" name="sec9row1col14"  id="sec9row1col14"><%=getComments1[8].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[96].amount%>" name="sec9row2col1"  id="sec9row2col1" onchange='totalastar(9,10);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[97].amount%>" name="sec9row2col2"  id="sec9row2col2" onchange='totalastar(9,10);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[98].amount%>" name="sec9row2col3"  id="sec9row2col3" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[99].amount%>" name="sec9row2col4"  id="sec9row2col4" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[100].amount%>" name="sec9row2col5"  id="sec9row2col5" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[101].amount%>" name="sec9row2col6"  id="sec9row2col6" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[102].amount%>" name="sec9row2col7" id="sec9row2col7" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[103].amount%>" name="sec9row2col8" id="sec9row2col8" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[104].amount%>" name="sec9row2col9" id="sec9row2col9" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[105].amount%>" name="sec9row2col10" id="sec9row2col10" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[106].amount%>" name="sec9row2col11" id="sec9row2col11" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[107].amount%>" name="sec9row2col12" id="sec9row2col12" onchange='totalastar(9,10);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec9row2col13" readonly id="sec9row2col13"   >
+    </TD>
+
+  </TR>
+  
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[108].amount%>" name="sec10row1col1"  id="sec10row1col1" onchange='totalastar(10,11);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[109].amount%>" name="sec10row1col2"  id="sec10row1col2" onchange='totalastar(10,11);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[110].amount%>" name="sec10row1col3"  id="sec10row1col3" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[111].amount%>" name="sec10row1col4"  id="sec10row1col4" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[112].amount%>" name="sec10row1col5"  id="sec10row1col5" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[113].amount%>" name="sec10row1col6"  id="sec10row1col6" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[114].amount%>" name="sec10row1col7" id="sec10row1col7" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[115].amount%>" name="sec10row1col8" id="sec10row1col8" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[116].amount%>" name="sec10row1col9" id="sec10row1col9" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[117].amount%>" name="sec10row1col10" id="sec10row1col10" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[118].amount%>" name="sec10row1col11" id="sec10row1col11" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[119].amount%>" name="sec10row1col12" id="sec10row1col12" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec10row1col13" readonly id="sec10row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[9].comment%>" name="sec10row1col14"  id="sec10row1col14"><%=getComments1[9].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[108].amount%>" name="sec10row2col1"  id="sec10row2col1" onchange='totalastar(10,11);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[109].amount%>" name="sec10row2col2"  id="sec10row2col2" onchange='totalastar(10,11);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[110].amount%>" name="sec10row2col3"  id="sec10row2col3" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[111].amount%>" name="sec10row2col4"  id="sec10row2col4" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[112].amount%>" name="sec10row2col5"  id="sec10row2col5" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[113].amount%>" name="sec10row2col6"  id="sec10row2col6" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[114].amount%>" name="sec10row2col7" id="sec10row2col7" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[115].amount%>" name="sec10row2col8" id="sec10row2col8" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[116].amount%>" name="sec10row2col9" id="sec10row2col9" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[117].amount%>" name="sec10row2col10" id="sec10row2col10" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[118].amount%>" name="sec10row2col11" id="sec10row2col11" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[119].amount%>" name="sec10row2col12" id="sec10row2col12" onchange='totalastar(10,11);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec10row2col13" readonly id="sec10row2col13"   >
+    </TD>
+
+  </TR>
+ 
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[120].amount%>" name="sec11row1col1"  id="sec11row1col1" onchange='totalastar(11,12);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[121].amount%>" name="sec11row1col2"  id="sec11row1col2" onchange='totalastar(11,12);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[122].amount%>" name="sec11row1col3"  id="sec11row1col3" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[123].amount%>" name="sec11row1col4"  id="sec11row1col4" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[124].amount%>" name="sec11row1col5"  id="sec11row1col5" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[125].amount%>" name="sec11row1col6"  id="sec11row1col6" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[126].amount%>" name="sec11row1col7" id="sec11row1col7" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[127].amount%>" name="sec11row1col8" id="sec11row1col8" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[128].amount%>" name="sec11row1col9" id="sec11row1col9" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[129].amount%>" name="sec11row1col10" id="sec11row1col10" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[130].amount%>" name="sec11row1col11" id="sec11row1col11" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[131].amount%>" name="sec11row1col12" id="sec11row1col12" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec11row1col13" readonly id="sec11row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[10].comment%>" name="sec11row1col14"  id="sec11row1col14"><%=getComments1[10].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[120].amount%>" name="sec11row2col1"  id="sec11row2col1" onchange='totalastar(11,12);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[121].amount%>" name="sec11row2col2"  id="sec11row2col2" onchange='totalastar(11,12);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[122].amount%>" name="sec11row2col3"  id="sec11row2col3" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[123].amount%>" name="sec11row2col4"  id="sec11row2col4" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[124].amount%>" name="sec11row2col5"  id="sec11row2col5" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[125].amount%>" name="sec11row2col6"  id="sec11row2col6" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[126].amount%>" name="sec11row2col7" id="sec11row2col7" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[127].amount%>" name="sec11row2col8" id="sec11row2col8" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[128].amount%>" name="sec11row2col9" id="sec11row2col9" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[129].amount%>" name="sec11row2col10" id="sec11row2col10" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[130].amount%>" name="sec11row2col11" id="sec11row2col11" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[131].amount%>" name="sec11row2col12" id="sec11row2col12" onchange='totalastar(11,12);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec11row2col13" readonly id="sec11row2col13"   >
+    </TD>
+
+  </TR>
+
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[132].amount%>" name="sec12row1col1"  id="sec12row1col1" onchange='totalastar(12,13);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[133].amount%>" name="sec12row1col2"  id="sec12row1col2" onchange='totalastar(12,13);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[134].amount%>" name="sec12row1col3"  id="sec12row1col3" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[135].amount%>" name="sec12row1col4"  id="sec12row1col4" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[136].amount%>" name="sec12row1col5"  id="sec12row1col5" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[137].amount%>" name="sec12row1col6"  id="sec12row1col6" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[138].amount%>" name="sec12row1col7" id="sec12row1col7" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[139].amount%>" name="sec12row1col8" id="sec12row1col8" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[140].amount%>" name="sec12row1col9" id="sec12row1col9" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[141].amount%>" name="sec12row1col10" id="sec12row1col10" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[142].amount%>" name="sec12row1col11" id="sec12row1col11" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[143].amount%>" name="sec12row1col12" id="sec12row1col12" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec12row1col13" readonly id="sec12row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[11].comment%>" name="sec12row1col14"  id="sec12row1col14"><%=getComments1[11].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[132].amount%>" name="sec12row2col1"  id="sec12row2col1" onchange='totalastar(12,13);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[133].amount%>" name="sec12row2col2"  id="sec12row2col2" onchange='totalastar(12,13);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[134].amount%>" name="sec12row2col3"  id="sec12row2col3" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[135].amount%>" name="sec12row2col4"  id="sec12row2col4" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[136].amount%>" name="sec12row2col5"  id="sec12row2col5" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[137].amount%>" name="sec12row2col6"  id="sec12row2col6" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[138].amount%>" name="sec12row2col7" id="sec12row2col7" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[139].amount%>" name="sec12row2col8" id="sec12row2col8" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[140].amount%>" name="sec12row2col9" id="sec12row2col9" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[141].amount%>" name="sec12row2col10" id="sec12row2col10" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[142].amount%>" name="sec12row2col11" id="sec12row2col11" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[143].amount%>" name="sec12row2col12" id="sec12row2col12" onchange='totalastar(12,13);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec12row2col13" readonly id="sec12row2col13"   >
+    </TD>
+
+  </TR>
+ 
+
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[144].amount%>" name="sec13row1col1"  id="sec13row1col1" onchange='totalastar(13,14);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[145].amount%>" name="sec13row1col2"  id="sec13row1col2" onchange='totalastar(13,14);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[146].amount%>" name="sec13row1col3"  id="sec13row1col3" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[147].amount%>" name="sec13row1col4"  id="sec13row1col4" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[148].amount%>" name="sec13row1col5"  id="sec13row1col5" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[149].amount%>" name="sec13row1col6"  id="sec13row1col6" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[150].amount%>" name="sec13row1col7" id="sec13row1col7" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[151].amount%>" name="sec13row1col8" id="sec13row1col8" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[152].amount%>" name="sec13row1col9" id="sec13row1col9" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[153].amount%>" name="sec13row1col10" id="sec13row1col10" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[154].amount%>" name="sec13row1col11" id="sec13row1col11" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[155].amount%>" name="sec13row1col12" id="sec13row1col12" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec13row1col13" readonly id="sec13row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[12].comment%>" name="sec13row1col14"  id="sec13row1col14"><%=getComments1[12].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[144].amount%>" name="sec13row2col1"  id="sec13row2col1" onchange='totalastar(13,14);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[145].amount%>" name="sec13row2col2"  id="sec13row2col2" onchange='totalastar(13,14);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[146].amount%>" name="sec13row2col3"  id="sec13row2col3" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[147].amount%>" name="sec13row2col4"  id="sec13row2col4" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[148].amount%>" name="sec13row2col5"  id="sec13row2col5" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[149].amount%>" name="sec13row2col6"  id="sec13row2col6" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[150].amount%>" name="sec13row2col7" id="sec13row2col7" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[151].amount%>" name="sec13row2col8" id="sec13row2col8" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[152].amount%>" name="sec13row2col9" id="sec13row2col9" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[153].amount%>" name="sec13row2col10" id="sec13row2col10" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[154].amount%>" name="sec13row2col11" id="sec13row2col11" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[155].amount%>" name="sec13row2col12" id="sec13row2col12" onchange='totalastar(13,14);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec13row2col13" readonly id="sec13row2col13"   >
+    </TD>
+
+  </TR>
+ 
+<!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- --><!-- -------------------------------------------------------------------------- -->
+
+<tr>
+  <td  >
+
+  </td>
+<td height='20px'></td>
+<td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+</tr>
+<TR>
+
+    <TD style='text-align:left'   style='text-align:left' >
+
+    </TD>
+ <td></td>
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[156].amount%>" name="sec14row1col1"  id="sec14row1col1" onchange='totalastar(14,15);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[157].amount%>" name="sec14row1col2"  id="sec14row1col2" onchange='totalastar(14,15);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[158].amount%>" name="sec14row1col3"  id="sec14row1col3" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[159].amount%>" name="sec14row1col4"  id="sec14row1col4" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[160].amount%>" name="sec14row1col5"  id="sec14row1col5" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[161].amount%>" name="sec14row1col6"  id="sec14row1col6" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[162].amount%>" name="sec14row1col7" id="sec14row1col7" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[163].amount%>" name="sec14row1col8" id="sec14row1col8" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[164].amount%>" name="sec14row1col9" id="sec14row1col9" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[165].amount%>" name="sec14row1col10" id="sec14row1col10" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[166].amount%>" name="sec14row1col11" id="sec14row1col11" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " value="<%=data1[167].amount%>" name="sec14row1col12" id="sec14row1col12" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sec14row1col13" readonly id="sec14row1col13"   >
+    </TD>
+    <td>
+    </td>
+ <TD rowspan='2' >     
+      <textarea  style='height:41px;width:250px;margin:0' value="<%=getComments1[13].comment%>" name="sec14row1col14"  id="sec14row1col14"><%=getComments1[13].comment%></textarea>
+    </TD>
+  </TR>
+
+  <TR>
+
+    <TD style='text-align:left' >
+
+    </TD>
+<td></td>    
+    <TD >
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[156].amount%>" name="sec14row2col1"  id="sec14row2col1" onchange='totalastar(14,15);'  >
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[157].amount%>" name="sec14row2col2"  id="sec14row2col2" onchange='totalastar(14,15);' >
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[158].amount%>" name="sec14row2col3"  id="sec14row2col3" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[159].amount%>" name="sec14row2col4"  id="sec14row2col4" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[160].amount%>" name="sec14row2col5"  id="sec14row2col5" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[161].amount%>" name="sec14row2col6"  id="sec14row2col6" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[162].amount%>" name="sec14row2col7" id="sec14row2col7" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[163].amount%>" name="sec14row2col8" id="sec14row2col8" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[164].amount%>" name="sec14row2col9" id="sec14row2col9" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[165].amount%>" name="sec14row2col10" id="sec14row2col10" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[166].amount%>" name="sec14row2col11" id="sec14row2col11" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" value="<%=data2[167].amount%>" name="sec14row2col12" id="sec14row2col12" onchange='totalastar(14,15);' >
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign=" %" data-p-sign="s" name="sec14row2col13" readonly id="sec14row2col13"   >
+    </TD>
+
+  </TR>
+ 
+
+  <tr>
+
+
+<td>  
+  <br>
+  <br>
+</td>
+  </tr>
+
+
+<tr>
+   <td  >
+
+  </td>
+   <td></td>
+
+  <TD style='font-weight:900;text-align:center;font-size:18px'>
+
+  
+      January
+      
+    </TD>
+      <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      Feburary
+      
+    </TD>
+      <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      March
+      
+    </TD>
+          <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      April
+      
+    </TD>
+          <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      May
+      
+    </TD>
+          <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      June
+      
+    </TD>
+          <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      July
+      
+    </TD>
+          <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      August
+      
+    </TD>
+          <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      September
+      
+    </TD>
+          <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      October
+      
+    </TD>
+          <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+     November
+      
+    </TD>    
+     <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      December
+      
+    </TD>
+        </TD>    
+     <TD style='font-weight:900;text-align:center;font-size:18px'>
+        
+      Annual
+    </td>
+</tr>
+
+  <tr>
+  <TD style='font-weight:900;font-size:18px'>
+<br>
+  </td>
+   <td></td>
+
+  <td>
+  </td>
+<td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+    <td>
+  </td>
+
+    </TD>
+      
+</tr>
+<TR>
+    <TD>
+    </TD>
+<td></td> 
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col1" id="sectotrow9col1" onchange='totalastar();' readonly> 
+    </TD>
+      <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col2" id="sectotrow9col2" onchange='totalastar();' readonly>
+    </TD>
+    <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col3" id="sectotrow9col3" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col4" id="sectotrow9col4" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col5" id="sectotrow9col5" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col6" id="sectotrow9col6" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col7" id="sectotrow9col7" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col8" id="sectotrow9col8" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col9" id="sectotrow9col9" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col10" id="sectotrow9col10" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col11" id="sectotrow9col11" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col12" id="sectotrow9col12" onchange='totalastar();' readonly>
+    </TD>
+        <TD>
+      <input type="text"  step="0.01" class="auto" data-a-sign="$ " name="sectotrow9col13" id="sectotrow9col13"  readonly >
+    </TD>
+  </TR>
+</TABLE>
+
+
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<!-- End of ----------------------------------------------------------------------------------------------Budget Table-->
+<br>
+<br>
+<br>
+
+
+
+
+
+<br>
+<p style="font-weight:900;font-size:20px" >Comments</p>
+<br>
+<textarea style='height:150px' name='comments' id='comments'><%=getComments[0].comment%></textarea>
+<br>
+<br>
+
+
+
+
+<p style="font-weight:900; font-size:19px">By checking this box, you have verified that all information above is accurate to the best of your knowledge.</p>
+<br><input type='checkbox' name='confirmation' id='confirmation' required >
+
+<br>
+
+
+
+<p> <input type='submit'  value='Submit'> </p>
+		</form>
+  </div>
+	</div>
+	
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    
+ 
+<script>
+
+
+
+
+// //----------------------------------------------------------------------------------------
+// function selectall() {
+// document.getElementById('sec1').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec2').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec3').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec4').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec5').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec6').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec7').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec8').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec9').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec10').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec11').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec12').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec13').checked = document.getElementById('sectot').checked;
+// document.getElementById('sec14').checked = document.getElementById('sectot').checked;
+
+
+// }
+// //----------------------------------------------------------------------------------------
+
+
+
+//----------------------------------------------------------------------------------------
+
+function checkCheckBoxes(theForm) {
+  if (
+  theForm.sec1.checked == false &&
+  theForm.sec2.checked == false &&
+  theForm.sec3.checked == false &&
+  theForm.sec4.checked == false &&
+  theForm.sec5.checked == false &&
+  theForm.sec6.checked == false &&
+  theForm.sec7.checked == false &&
+  theForm.sec8.checked == false &&
+  theForm.sec9.checked == false &&
+  theForm.sec10.checked == false &&
+  theForm.sec11.checked == false &&
+  theForm.sec12.checked == false &&
+  theForm.sec13.checked == false &&
+  theForm.sec14.checked == false) 
+  {
+    alert ('You have not selected any Media types.');
+    return false;
+  } else {  
+    return true;
+  }
+}
+//----------------------------------------------------------------------------------------
+
+</script>
+
+
+  </body>
+</html>
