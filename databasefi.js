@@ -2,10 +2,10 @@ var mysql = require('mysql');
 var nodemailer = require('nodemailer')
 
 connectiondb = mysql.createConnection({
-	host: 'hivemind.cz8ot38fda8x.us-west-2.rds.amazonaws.com',
-	user: 'theadmin',
-	password: 'Bottle600200',
-	database: 'hivemind'
+	host: '',
+	user: '',
+	password: '',
+	database: ''
 
 })
 
