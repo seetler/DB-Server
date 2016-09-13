@@ -6,4 +6,4 @@ IP based login authentication,
 Login token,
 Data shown based on user ID,
 Sequential processing despite multiple requests (though Node is Async, MySQL is sequential),
-Full error logging
+Full error logging, Easy non technical editting of new clients
