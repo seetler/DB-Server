@@ -1,5 +1,5 @@
 // #################################################
-// This is the server for the New York Office.  
+// This is the server for the Office.  
 // #################################################
 // Every single aspect of this application, (database, server, and webpage) was personally coded by me, Jason Zeng.
 // The webpages are in the views folder
