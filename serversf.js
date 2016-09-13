@@ -353,7 +353,7 @@ next()
 
 //----------This calls the queries then generates the webpage-----------
 //---------------------------------------------------------------------------
-app.get('/finance', ensureAuthenticated, getBudget1, getBudget2, getBudget3,getBudget5,getBudget6,getBudget8,getBudget12,getComments1,getComments,function(req, res ){res.render('finance', {
+app.get('/master', ensureAuthenticated, getBudget1, getBudget2, getBudget3,getBudget5,getBudget6,getBudget8,getBudget12,getComments1,getComments,function(req, res ){res.render('master', {
         data: req.budget1,
         data1: req.budget1,
         data2: req.budget2,
@@ -416,7 +416,7 @@ app.post('/login', function(req, res, next) {
     }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      return res.redirect('/finance');
+      return res.redirect('/master');
     });
   })(req, res, next);
 });
