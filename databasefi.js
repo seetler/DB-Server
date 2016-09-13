@@ -111,7 +111,7 @@ formatandinsert('sec1row2col12',timelog, keylog);
 }
 
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec1row3col1',timelog, keylog);
 formatandinsert('sec1row3col2',timelog, keylog);
@@ -223,7 +223,7 @@ formatandinsert('sec2row2col11',timelog, keylog);
 formatandinsert('sec2row2col12',timelog, keylog);
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec2row3col1',timelog, keylog);
 formatandinsert('sec2row3col2',timelog, keylog);
@@ -333,7 +333,7 @@ formatandinsert('sec3row2col11',timelog, keylog);
 formatandinsert('sec3row2col12',timelog, keylog);
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec3row3col1',timelog, keylog);
 formatandinsert('sec3row3col2',timelog, keylog);
@@ -443,7 +443,7 @@ formatandinsert('sec4row2col11',timelog, keylog);
 formatandinsert('sec4row2col12',timelog, keylog);
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec4row3col1',timelog, keylog);
 formatandinsert('sec4row3col2',timelog, keylog);
@@ -554,7 +554,7 @@ formatandinsert('sec5row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec5row3col1',timelog, keylog);
 formatandinsert('sec5row3col2',timelog, keylog);
@@ -664,7 +664,7 @@ formatandinsert('sec6row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec6row3col1',timelog, keylog);
 formatandinsert('sec6row3col2',timelog, keylog);
@@ -774,7 +774,7 @@ formatandinsert('sec7row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec7row3col1',timelog, keylog);
 formatandinsert('sec7row3col2',timelog, keylog);
@@ -885,7 +885,7 @@ formatandinsert('sec8row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec8row3col1',timelog, keylog);
 formatandinsert('sec8row3col2',timelog, keylog);
@@ -996,7 +996,7 @@ formatandinsert('sec9row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec9row3col1',timelog, keylog);
 formatandinsert('sec9row3col2',timelog, keylog);
@@ -1108,7 +1108,7 @@ formatandinsert('sec10row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec10row3col1',timelog, keylog);
 formatandinsert('sec10row3col2',timelog, keylog);
@@ -1220,7 +1220,7 @@ formatandinsert('sec11row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec11row3col1',timelog, keylog);
 formatandinsert('sec11row3col2',timelog, keylog);
@@ -1331,7 +1331,7 @@ formatandinsert('sec12row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec12row3col1',timelog, keylog);
 formatandinsert('sec12row3col2',timelog, keylog);
@@ -1443,7 +1443,7 @@ formatandinsert('sec13row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec13row3col1',timelog, keylog);
 formatandinsert('sec13row3col2',timelog, keylog);
@@ -1555,7 +1555,7 @@ formatandinsert('sec14row2col12',timelog, keylog);
 
 }
 
-if (dataset.servertype == 'finance') {
+if (dataset.servertype == 'master') {
 
 formatandinsert('sec14row3col1',timelog, keylog);
 formatandinsert('sec14row3col2',timelog, keylog);
