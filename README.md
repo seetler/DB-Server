@@ -1,4 +1,4 @@
-This is a working Node JS server I built for a proposed budget submission application. 
+This is a working Node JS server I built for a proposed budget submission application. It even has a appealing frontend interface writing in HTML/CSS/JS with ejs markups.
 
 Features: 
 
